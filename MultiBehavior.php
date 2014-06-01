@@ -12,11 +12,11 @@ use yii\db\ActiveRecord;
  */
 class MultiBehavior extends Behavior
 {
+
     /**
      * @var array of relations in format: $relationName =>$fqn, ...
      */
     public $relationsMap = [];
-
 
     /**
      * @var Closure[] should realize process logic
