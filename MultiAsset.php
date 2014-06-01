@@ -30,19 +30,4 @@ class MultiAsset extends AssetBundle
             'css/add-multiple-phone.css'
         ];
     }
-
-    public static function register($view, $additionData = [])
-    {
-        $js = '';
-
-        foreach ($additionData as $key => $value) {
-            $js .= "var {$key}='{$value}';";
-        }
-        if ($js) {
-            $view->registerJs($js, View::POS_HEAD);
-
-        }
-        return parent::register($view);
-    }
-
 }
