@@ -10,7 +10,7 @@ use yii\helpers\Html;
  * @var string $createLabel
  * @var string $multi_url
  */
-\mitlcoi\multi\MultiAsset::register($this);
+\mitalcoi\multi\MultiAsset::register($this);
 ?>
 <div id="<?= $relation ?>">
     <?= Html::hiddenInput('multi_url-' . $relation, $multi_url, ['class' => 'multi_url']); ?>
