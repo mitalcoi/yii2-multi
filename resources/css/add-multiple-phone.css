@@ -1,0 +1,12 @@
+.phone-row {
+    list-style: none;
+}
+
+#phones ul {
+    padding-left: 5px;
+}
+
+.phone-row .delete-multi {
+    color:red;
+    float:right;
+}

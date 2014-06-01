@@ -1,0 +1,21 @@
+{
+    "name": "mitalcoi/yii2-multi",
+    "description": "Possibility to insert/update multiple relation enteties",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "extension", "multi", "behavior", "widget"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sorokin Victor",
+            "email": "st-agrail@yandex.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "mitalcoi\\multi\\": ""
+        }
+    }
+}
