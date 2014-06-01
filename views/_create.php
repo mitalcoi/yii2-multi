@@ -10,12 +10,12 @@ use yii\helpers\Html;
  * @var string $createLabel
  * @var string $multi_url
  */
-\mitlcoi\multi\AddMultiplePhoneAsset::register($this);
+\mitlcoi\multi\MultiAsset::register($this);
 ?>
 <div id="<?= $relation ?>">
     <?= Html::hiddenInput('multi_url-' . $relation, $multi_url, ['class' => 'multi_url']); ?>
     <?= Html::label($mainLabel) ?>
-    <ul>
+    <ul class="multi-ul">
         <? foreach ($model->multiHold[$relation] as $i => $r): ?>
             <?= $this->render($rowViewPath, ['model' => $r, 'i' => $i, 'deleteLabel' => $deleteLabel]); ?>
         <? endforeach; ?>

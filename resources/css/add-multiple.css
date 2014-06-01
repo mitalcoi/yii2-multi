@@ -1,0 +1,12 @@
+.multi-row {
+    list-style: none;
+}
+
+.multi-ul {
+    padding-left: 5px;
+}
+
+.multi-row .delete-multi {
+    color: red;
+    float: right;
+}

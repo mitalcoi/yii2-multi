@@ -8,7 +8,7 @@ use app\models\ExternalPhone;
  * @var string $deleteLabel
  */
 ?>
-<li class="phone-row row">
+<li class="multi-row row">
     <div class="col-lg-5 form-group">
         <?=
         Html::a(

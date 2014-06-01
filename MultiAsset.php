@@ -24,10 +24,10 @@ class MultiAsset extends AssetBundle
     {
         $this->sourcePath = __DIR__ . '/resources';
         $this->js = [
-            'js/add-multiple-phone.js'
+            'js/add-multiple.js'
         ];
         $this->css = [
-            'css/add-multiple-phone.css'
+            'css/add-multiple.css'
         ];
     }
 }
