@@ -1,11 +1,13 @@
 <?php
 namespace mitalcoi\multi;
 
+use yii\base\Action;
+
 /**
  * Class AddRowAction
  * @package mitalcoi\multi
  */
-class AddRowAction extends \yii\web\Action
+class AddRowAction extends Action
 {
     public $modelClass;
 
