@@ -9,19 +9,20 @@ use app\models\ExternalPhone;
  */
 ?>
 <li class="multi-row row">
-    <div class="col-lg-5 form-group">
+    <div class="col-lg-6 form-group">
+
+        <h5><?= '#' . ($i + 1) ?></h5>
+        <?
+        echo Html::activeTextInput($model, "[$i]number", ['class' => 'form-control']);?>
         <?=
         Html::a(
             'X',
             '#',
             ['title' => isset($deleteLabel) ? $deleteLabel : 'Delete' . ' #' . ($i + 1), 'class' => 'delete-multi']
         ); ?>
-        <h5><?= '#' . ($i + 1) ?></h5>
-        <?
-        echo Html::activeTextInput($model, "[$i]number", ['class' => 'form-control']);
-        echo Html::error($model, "[$i]number", ['class' => 'help-block']);
+        <?= Html::error($model, "[$i]number", ['class' => 'help-block']); ?>
 
-        if (!$model->isNewRecord):?>
+        <? if (!$model->isNewRecord): ?>
             <?= Html::activeHiddenInput($model, "[$i]id") ?>
         <? endif; ?>
 
