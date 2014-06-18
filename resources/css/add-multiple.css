@@ -8,5 +8,14 @@
 
 .multi-row .delete-multi {
     color: red;
-    float: right;
+}
+
+.multi-row h5 {
+    display: inline-block;
+}
+
+.multi-row input {
+    display: inline-block;
+    width: 75%;
+    margin: 0 8px 0 5px;
 }
