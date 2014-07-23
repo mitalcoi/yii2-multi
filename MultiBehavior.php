@@ -14,6 +14,10 @@ class MultiBehavior extends Behavior
 {
 
     /**
+     * @var array scenarios
+     */
+    public $scenarios = [ActiveRecord::SCENARIO_DEFAULT];
+    /**
      * @var array of relations in format: $relationName =>$fqn, ...
      */
     public $relationsMap = [];
@@ -75,6 +79,11 @@ class MultiBehavior extends Behavior
         }
     }
 
+    private function checkScenario()
+    {
+        return in_array($this->owner->scenario, $this->scenarios);
+    }
+
     /** @inheritdoc */
     public function events()
     {
@@ -87,21 +96,23 @@ class MultiBehavior extends Behavior
 
     public function processMulti($r)
     {
-        $old_ids = [];
-        $new_ids = [];
-        foreach ($this->_oldMulti[$r] as $a) {
-            $old_ids[] = $a->id;
-        }
-        if (!$this->_forceClearAllMulti[$r]) {
-            foreach ($this->multiHold[$r] as $multi) {
-                call_user_func($this->process[$r], $this->owner, $multi);
-                $new_ids[] = $multi->id;
+        if ($this->checkScenario()) {
+            $old_ids = [];
+            $new_ids = [];
+            foreach ($this->_oldMulti[$r] as $a) {
+                $old_ids[] = $a->id;
             }
-        }
-        $toDelete = array_diff($old_ids, $new_ids);
-        $class = $this->relationsMap[$r];
-        foreach ($toDelete as $id) {
-            $class::deleteAll(['id' => $id]);
+            if (!$this->_forceClearAllMulti[$r]) {
+                foreach ($this->multiHold[$r] as $multi) {
+                    call_user_func($this->process[$r], $this->owner, $multi);
+                    $new_ids[] = $multi->id;
+                }
+            }
+            $toDelete = array_diff($old_ids, $new_ids);
+            $class = $this->relationsMap[$r];
+            foreach ($toDelete as $id) {
+                $class::deleteAll(['id' => $id]);
+            }
         }
     }
 
@@ -144,46 +155,52 @@ class MultiBehavior extends Behavior
 
     public function afterSave()
     {
-        $condition = true;
-        foreach ($this->relationsMap as $r => $fqn) {
-            if (isset($this->afterSaveCondition[$r])) {
-                $condition = call_user_func($this->afterSaveCondition[$r], $this->owner);
-            }
-            if ($condition) {
-                $this->processMulti($r);
-            }
+        if ($this->checkScenario()) {
             $condition = true;
+            foreach ($this->relationsMap as $r => $fqn) {
+                if (isset($this->afterSaveCondition[$r])) {
+                    $condition = call_user_func($this->afterSaveCondition[$r], $this->owner);
+                }
+                if ($condition) {
+                    $this->processMulti($r);
+                }
+                $condition = true;
+            }
         }
-
     }
 
 
     public function loadMulti($data, $formName = null)
     {
-        foreach ($this->relationsMap as $r => $fqn) {
-            $form = $this->getFormName($fqn);
-            if (isset($data[$form])) {
-                $this->_loadMulti($r, $data[$form]);
-            } else {
-                if ($this->owner->{$r}) {
-                    $this->_forceClearAllMulti[$r] = true;
+        if ($this->checkScenario()) {
+            foreach ($this->relationsMap as $r => $fqn) {
+                $form = $this->getFormName($fqn);
+                if (isset($data[$form])) {
+                    $this->_loadMulti($r, $data[$form]);
+                } else {
+                    if ($this->owner->{$r}) {
+                        $this->_forceClearAllMulti[$r] = true;
+                    }
                 }
             }
         }
-        $owner = $this->owner;
-        return $owner->load($data, $formName);
+        return $this->owner->load($data, $formName);
     }
 
     public function validateMulti($attributes = null, $clearErrors = true)
     {
         $owner = $this->owner;
-        $valid = true;
-        foreach ($this->relationsMap as $r => $fqn) {
-            $first = $owner::validateMultiple($this->multiHold[$r]);
-            $second = $owner->validate($attributes, $clearErrors);
-            $valid = $second && $first && $valid;
+        if ($this->checkScenario()) {
+            $valid = true;
+            foreach ($this->relationsMap as $r => $fqn) {
+                $first = $owner::validateMultiple($this->multiHold[$r]);
+                $second = $owner->validate($attributes, $clearErrors);
+                $valid = $second && $first && $valid;
+            }
+            return $valid;
+        } else {
+            return $owner->validate($attributes, $clearErrors);
         }
-        return $valid;
     }
 
     /**
