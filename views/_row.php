@@ -9,7 +9,7 @@ use app\models\ExternalPhone;
  */
 ?>
 <li class="multi-row row">
-    <div class="col-lg-6 form-group">
+    <div>
 
         <h5><?= '#' . ($i + 1) ?></h5>
         <?
