@@ -20,7 +20,7 @@ use app\models\ExternalPhone;
             '#',
             ['title' => isset($deleteLabel) ? $deleteLabel : 'Delete' . ' #' . ($i + 1), 'class' => 'delete-multi']
         ); ?>
-        <?= Html::error($model, "[$i]number", ['class' => 'help-block']); ?>
+        <?= Html::error($model, "[$i]number", ['class' => 'help-block', 'style'=>'color:red']); ?>
 
         <? if (!$model->isNewRecord): ?>
             <?= Html::activeHiddenInput($model, "[$i]id") ?>
